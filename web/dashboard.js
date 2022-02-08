@@ -12,6 +12,7 @@
       .then(makeChart);
 
     function filterdata() {
+      // Save
       const fdate = [...DateTime];
       const sdate = [...strDateTime];
       var startdate = document.getElementById('startdate').valueAsNumber;
