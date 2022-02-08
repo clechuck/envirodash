@@ -4,7 +4,8 @@
     var DateTime
     var parsedDateTime
     var strDateTime
-    var Temperatures
+    var strDateTimeFull
+    var TemperaturesFull
     var chart
 
     d3.csv(url)
@@ -16,22 +17,10 @@
       var startdate = document.getElementById('startdate').valueAsNumber;
       var enddate = document.getElementById('enddate').valueAsNumber;
 
-      console.log(startdate > enddate);
-      console.log(document.getElementById('startdate').value,startdate)
-      console.log(document.getElementById('enddate').value,enddate)
-
       //check for valid dates
       if (startdate > enddate) {
-        console.log('One');
         enddate=fdate[fdate.length-1];
         document.getElementById("enddate").valueAsNumber = enddate;
-      } else if (!enddate) {
-        console.log('Two: fdate length'+fdate[fdate.length-1]);
-        enddate=fdate[fdate.length-1];
-        console.log(enddate,fdate[fdate.length-1]);
-      } else if (!startdate) {
-        console('Three');
-        startdate=fdate[0];
       };
 
       const startindex = fdate.findIndex(function(number) {
@@ -45,11 +34,6 @@
         console.log("Length of fdate is "+fdate.length);
         endindex=fdate.length-1;
       }
-      console.log(startdate);
-      console.log(startindex);
-      console.log(enddate);
-      console.log(endindex);
-
 
       //slice the array
       const filterDate = fdate.slice(startindex,endindex+1);
@@ -65,24 +49,6 @@
       chart.update();
     }
 
-    function getdate() {
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1; //January is 0!
-        var yyyy = today.getFullYear();
-
-        if(dd<10) {
-            dd = '0'+dd
-       } 
-
-       if(mm<10) {
-           mm = '0'+mm
-       } 
-
-      today = yyyy + '-' + mm + '-' + dd;
-  console.log(today);
-  document.getElementById("enddate").value = today;
-    }
 
     function fillCurrentTemp(Temp,Date,currentTemp) {
       document.getElementById(currentTemp).text = "Current Temperature is "+Temp+" recorded on "+Date;
@@ -92,11 +58,11 @@
 
       // console.log(envdata)
       // Datetime array as strings
-      strDateTime = envdata.map(function(d) {
+      strDateTimeFull = envdata.map(function(d) {
                                               repl = d.DateTime.replace(/-/g,'/');
                                               return repl;
                                             });
-      Temperatures = envdata.map(function(d) {return d.Temperature});
+      TemperaturesFull = envdata.map(function(d) {return d.Temperature});
       // Datetime array as epoch time
       parsedDateTime = envdata.map(function(d) {
                                                 repl = d.DateTime.replace(/-/g,'/');
@@ -108,9 +74,9 @@
       // Takes every 6th item of the chart (this means we capture hourly events )
       // since the python script on the RPi samples and uploads every 10 minutes
       DateTime = parsedDateTime.filter( (e, i) => i % 6 === 0 );
-      strDateTime = strDateTime.filter( (e, i) => i % 6 === 0 );
-      Temperatures = Temperatures.filter( (e, i) => i % 6 === 0 );
-      
+      strDateTime = strDateTimeFull.filter( (e, i) => i % 6 === 0 );
+      Temperatures = TemperaturesFull.filter( (e, i) => i % 6 === 0 );
+  
 
 
       var chartData = {
@@ -188,6 +154,9 @@
         }
       });
 
+
+      filltable();
+
       fillCurrentTemp(Temperatures[Temperatures.length-1],strDateTime[strDateTime.length-1],"currentTemp");
       document.getElementById ("startdate").valueAsNumber=DateTime[0];
       document.getElementById ("enddate").valueAsNumber=DateTime[DateTime.length-1];
@@ -202,6 +171,20 @@
       document.getElementById ("enddate").addEventListener ("change", filterdata);
    }
 
+    function filltable() {
+      // Find a <table> element with id="myTable":
+      var table = document.getElementById("tablebody");
+      for (let i=0 ; i < strDateTime.length-1 ; i++) {
+        // Create an empty <tr> element and add it to the 1st position of the table:
+        var row = table.insertRow();
+        // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+        var cell1 = row.insertCell(0).innerHTML = strDateTime[i].split(' ')[0];
+        var cell2 = row.insertCell(1).innerHTML = strDateTime[i].split(' ')[1];
+        var cell3 = row.insertCell(2).innerHTML = Temperatures[i];
+      }
+      $('#temptable').DataTable( {scrollY: 400} );
+    }
+
     function resetZoomChart() {
       chart.config.data.datasets[0].data = Temperatures
       chart.config.data.labels = strDateTime;
@@ -209,3 +192,5 @@
       chart.resetZoom();
     }
 })()
+
+
