@@ -183,7 +183,7 @@
         var cell2 = row.insertCell(1).innerHTML = strDateTime[i].split(' ')[1];
         var cell3 = row.insertCell(2).innerHTML = Temperatures[i];
       }
-      $('#temptable').DataTable( {scrollY: 400} );
+      // $('#temptable').DataTable( {scrollY: 400} );
     }
 
     function resetZoomChart() {
