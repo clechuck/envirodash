@@ -184,7 +184,7 @@
         var cell3 = row.insertCell(2).innerHTML = Temperatures[i];
       }
       $('#temptable').DataTable( {
-                                  "ordering": false;
+                                  "ordering": false,
                                   scrollY: 400} );
     }
 
