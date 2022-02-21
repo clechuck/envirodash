@@ -185,6 +185,9 @@
       }
       $('#temptable').DataTable( {
                                   "ordering": false,
+                                  responsive: true,
+                                  deferRender: true,
+                                  scroller: true,
                                   scrollY: 400} );
     }
 
