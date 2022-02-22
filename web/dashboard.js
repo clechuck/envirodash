@@ -184,13 +184,13 @@
         var cell3 = row.insertCell(2).innerHTML = Temperatures[i];
       }
       $('#temptable').DataTable( {
-                                  "ordering": false,
+                                  ordering: false,
                                   responsive: true,
                                   deferRender: true,
-                                  "bScrollInfinite": true,
-                                  "bScrollCollapse": true,
+                                  bScrollInfinite: true,
+                                  bScrollCollapse: true,
                                   scroller: true,
-                                  scrollY: 400} );
+                                  "sScrollY" : "400px"} );
     }
 
     function resetZoomChart() {
