@@ -192,7 +192,7 @@
                                   scroller: true,
                                   ScrollY : '50vh', 
                                   scrollCollapse: true,
-                                  paging: false
+                                  paging: true
                                 } );
     }
 
