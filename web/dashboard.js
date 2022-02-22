@@ -190,7 +190,10 @@
                                   bScrollInfinite: true,
                                   bScrollCollapse: true,
                                   scroller: true,
-                                  "sScrollY" : "400px"} );
+                                  ScrollY : '50vh', 
+                                  scrollCollapse: true,
+                                  paging: false
+                                } );
     }
 
     function resetZoomChart() {
