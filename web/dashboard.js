@@ -191,8 +191,7 @@
                                   bScrollCollapse: true,
                                   scroller: true,
                                   ScrollY : '50vh', 
-                                  scrollCollapse: true,
-                                  paging: true
+                                  scrollCollapse: true
                                 } );
     }
 
